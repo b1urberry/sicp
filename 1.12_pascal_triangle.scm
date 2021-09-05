@@ -1,25 +1,18 @@
-
-;; Pascal Triangle:
- ; the numbers at the edge of the triangle are all 1,  
- ; and each number inside the triangle is the sum of the two numbers
-
-;; find number with index in the series
+;;; computes the nth element of the pascal triangle
 (define (pascal n)
-  ; convert to row and index, returning a pair
-  (define (convert sum row)
-    (if (not (> n sum))
-      (cons row (- row (- sum n)))
-      (convert (+ sum row 1) (+ row 1))))
-  (if (or (= n 1) (= n 2) (= n 3))
-    1
-    (let ((index (convert 3 2)))
-      (if (or (= (cdr index) 1) (= (cdr index) (car index)))
+  (let ((row (car (convert n)))
+        (index (cadr (convert n))))
+    ;; if the element is at first or last most index of a row, the element is 1
+    ;; else it's the sum of 2 pascal elemets above, which are (n - row)th and (n - row + 1)th elements
+    (if (or (= index 1) (= index row))
         1
-        (pascal_at (car index) (cdr index))))))
+        (+ (pascal (- n row)) (pascal (- (+ n 1) row))))))
 
-;; find number using row and index in the triangle
-(define (pascal_at row index)
-  (if (or (= row 1) (= row 2) (= index 1) (= index row))
-    1
-    (+ (pascal_at (- row 1) (- index 1)) 
-       (pascal_at (- row 1) index))))
+;;; computes the position of nth element in the pascal triangle
+;;; in terms of row and index in the row
+(define (convert n)
+  (define (iter row sum)
+    (if (>= sum n)                       ;found the row which the nth element is in
+        (list row (- row (- sum n)))     ;return the (row, index) pair
+        (iter (+ row 1) (+ sum row 1)))) ;with each iteration, add row by 1, add the number of elements in the new row to sum
+  (iter 1 1))
