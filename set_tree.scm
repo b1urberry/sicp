@@ -1,0 +1,16 @@
+(define (entry tree) (car tree))
+(define (left-branch tree) (cadr tree))
+(define (right-branch tree) (caddr tree))
+(define (make-tree entry left right) (list entry left right))
+
+(define (element-of-set? x set)
+   (cond ((null? set) false)
+         ((= x (entry set)) true)
+       	 ((< x (entry set)) (element-of-set x (left-branch set)))
+       	 (else (element-of-set x (right-branch set)))))
+
+(define (ajoin-set x set)
+  (cond ((null? set) (make-tree x '() '()))
+        ((= x (entry set)) set)
+				((< x (entry set)) (make-tree (entry set) (ajoin-set x (left-branch set)) (right-branch set)))
+				(else (make-tree (entry set) (left-branch set) (ajoin-set x (right-branch set))))))		

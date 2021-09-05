@@ -1,0 +1,7 @@
+(define (cycle-test seq)
+  (let ((head seq))
+  	(define (test l)
+  	  (cond ((eq? l head) true)
+  	        ((null? l) false)
+  	      	(else (test (cdr l)))))
+  	(test (cdr seq))))

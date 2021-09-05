@@ -1,0 +1,12 @@
+(define (square_tree tree)
+  (cond ((null? tree) ())
+        ((not (pair? tree)) (square tree))
+        (else (cons (square_tree (car tree))
+                    (square_tree (cdr tree))))))
+
+(define (square_tree_map tree)
+  (map (lambda (subtree) 
+         (if (pair? subtree)
+           (square_tree_map subtree)
+           (square subtree)))
+       tree))

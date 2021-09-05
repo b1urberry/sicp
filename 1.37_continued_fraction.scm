@@ -1,0 +1,12 @@
+(define (con_frac n d k)
+  (define (rec c)
+    (if (= c 0)
+      (/ (n k) (d k))
+      (/ (n (- k c))
+         (+ (d (- k c)) (rec (- c 1))))))
+  (define (iter c result)
+    (if (= c 0)
+      result
+      (iter (- c 1) 
+            (/ (n c) (+ (d c) result)))))
+(iter k 0))

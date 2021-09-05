@@ -1,0 +1,7 @@
+;; "nth" exponential of "base" (iterative successive squaring)
+(define (exp base n)
+  (define (iter b n a)
+    (cond ((= 0 n) a)
+          ((even? n) (iter (square b) (/ n 2) a))
+          (else (iter b (- n 1) (* b a)))))
+  (iter base n 1))
